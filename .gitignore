@@ -1,5 +1,6 @@
 venv/
 /ganpati_bappa_morya
+/classroom_portal/__pycache__
 /classroom_portal/__pycache__/urls.cpython-312.pyc
 /classroom_portal/__pycache__/settings.cpython-312.pyc
 /users/__pycache__/
