@@ -138,3 +138,17 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
+
+
+import os
+
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
+
+ALLOWED_HOSTS = ['your-render-url.onrender.com', 'localhost']
+
+# Add this for static files on Render
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Optional: if using media
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
