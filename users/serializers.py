@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import CustomUser
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -17,3 +19,10 @@ class RegisterSerializer(serializers.ModelSerializer):
             is_teacher=validated_data.get('is_teacher', False),
         )
         return user
+
+# -----------------------------
+# Login Serializer (Custom JWT Login with Email)
+# -----------------------------
+class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
