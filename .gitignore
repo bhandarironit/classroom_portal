@@ -5,3 +5,4 @@ venv/
 /classroom_portal/__pycache__/settings.cpython-312.pyc
 /users/__pycache__/
 /users/migrations/__pycache__/
+.env
