@@ -51,3 +51,36 @@ class StudentProfile(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - Student"
+    
+class Module(models.Model):
+    name = models.CharField(max_length=100)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='modules')
+    description = models.TextField(blank=True)
+    
+    def __str__(self):
+        return f"{self.name} - {self.subject.name}"
+
+class Assignment(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    module = models.ForeignKey(Module, on_delete=models.SET_NULL, null=True, blank=True, related_name='assignments')
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='assignments')
+    teacher = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE, related_name='assignments')
+    classroom = models.ForeignKey(ClassRoom, on_delete=models.CASCADE, related_name='assignments')
+    due_date = models.DateField()
+
+    def __str__(self):
+        return f"{self.title} - {self.subject.name}"
+
+class StudentAssignment(models.Model):
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name='assignments')
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, related_name='student_submissions')
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    marks_obtained = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    is_submitted = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('student', 'assignment')  # Prevent duplicate submissions
+
+    def __str__(self):
+        return f"{self.student.user.username} - {self.assignment.title}"
