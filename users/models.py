@@ -67,6 +67,7 @@ class Assignment(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='assignments')
     teacher = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE, related_name='assignments')
     classroom = models.ForeignKey(ClassRoom, on_delete=models.CASCADE, related_name='assignments')
+    total_marks = models.IntegerField(default=100)
     due_date = models.DateField()
 
     def __str__(self):
@@ -77,6 +78,8 @@ class StudentAssignment(models.Model):
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, related_name='student_submissions')
     submitted_at = models.DateTimeField(auto_now_add=True)
     marks_obtained = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    submission_date = models.DateField(null=True, blank=True)  # ✅ add this
+    status = models.CharField(max_length=20, choices=[('submitted', 'Submitted'), ('pending', 'Pending')], default='pending')  # ✅ add this
     is_submitted = models.BooleanField(default=False)
 
     class Meta:
